@@ -9,16 +9,16 @@ using namespace imgplot;
 PYBIND11_MODULE(imgplot, module)
 {
     py::class_<data::ImageData>(module, "ImageData")
-        .def(py::init<int, int, int>(), py::arg("height"), py::arg("width"), py::arg("num_channels"))
+        .def(py::init<int, int, int>(), py::arg("width"), py::arg("height"), py::arg("num_channels"))
         .def("resize", &data::ImageData::resize)
         .def("update", &data::ImageData::update);
 
     py::class_<Figure>(module, "Figure")
         .def(py::init<>())
-        .def("add", (void (Figure::*)(data::ImageData*, double, double, double, double)) &Figure::add);
+        .def("add", &Figure::add, py::arg("data"), py::arg("x"), py::arg("y"), py::arg("width"), py::arg("height"));
 
     py::class_<Window>(module, "Window")
-        .def(py::init<Figure*, py::tuple>())
+        .def(py::init<Figure*, py::tuple>(), py::arg("figure"), py::arg("size"))
         .def("closed", &Window::closed)
         .def("show", &Window::show);
 }

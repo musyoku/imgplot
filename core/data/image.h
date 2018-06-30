@@ -14,10 +14,11 @@ namespace data {
         std::unique_ptr<GLubyte[]> _data;
 
     public:
-        ImageData(int height, int width, int num_channels);
-        void resize(int height, int width, int num_channels);
+        ImageData(int width, int height, int num_channels);
+        void resize(int width, int height, int num_channels);
         void update(pybind11::array_t<GLubyte> data);
         bool updated();
+        void mark_as_updated();
         GLubyte* raw();
         int height();
         int width();

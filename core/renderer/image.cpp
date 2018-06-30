@@ -1,5 +1,6 @@
 #include "image.h"
 #include "../opengl.h"
+#include <iostream>
 
 namespace imgplot {
 namespace renderer {
@@ -93,11 +94,11 @@ void main(){
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindVertexArray(0);
     }
-    void ImageRenderer::set_data(GLubyte* data, int height, int width)
+    void ImageRenderer::set_data(GLubyte* data, int width, int height)
     {
         glBindTexture(GL_TEXTURE_2D, _texture_id);
         glTexImage2D(GL_TEXTURE_2D, 0,
-            GL_RGB, height, width, 0,
+            GL_RGB, width, height, 0,
             GL_RGB, GL_UNSIGNED_BYTE, data);
         glBindTexture(GL_TEXTURE_2D, 0);
     }

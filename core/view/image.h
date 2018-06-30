@@ -12,10 +12,10 @@ namespace view {
     private:
         data::ImageData* _data;
         std::unique_ptr<renderer::ImageRenderer> _renderer;
-        int _x;
-        int _y;
-        int _width;
-        int _height;
+        double _x;
+        double _y;
+        double _width;
+        double _height;
         void bind_data();
 
     public:

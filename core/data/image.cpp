@@ -2,7 +2,7 @@
 
 namespace imgplot {
 namespace data {
-    ImageData::ImageData(int height, int width, int num_channels)
+    ImageData::ImageData(int width, int height, int num_channels)
     {
         if (num_channels != 1 && num_channels != 3) {
             throw std::runtime_error("num_channels != 1 && num_channels != 3");
@@ -18,7 +18,7 @@ namespace data {
         _num_channels = num_channels;
         _data = std::make_unique<GLubyte[]>(height * width * 3);
     }
-    void ImageData::resize(int height, int width, int num_channels)
+    void ImageData::resize(int width, int height, int num_channels)
     {
         _data = std::make_unique<GLubyte[]>(height * width * 3);
     }
@@ -63,9 +63,10 @@ namespace data {
     }
     bool ImageData::updated()
     {
-        bool ret = _updated;
+        return _updated;
+    }
+    void ImageData::mark_as_updated(){
         _updated = false;
-        return ret;
     }
     GLubyte* ImageData::raw()
     {

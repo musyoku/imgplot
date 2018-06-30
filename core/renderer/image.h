@@ -21,7 +21,7 @@ namespace renderer {
 
     public:
         ImageRenderer();
-        void set_data(GLubyte* data, int height, int width);
+        void set_data(GLubyte* data, int width, int height);
         void render(GLfloat aspect_ratio);
     };
 }

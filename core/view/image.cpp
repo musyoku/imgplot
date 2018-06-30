@@ -7,11 +7,11 @@ namespace imgplot {
 namespace view {
     ImageView::ImageView(data::ImageData* data, double x, double y, double width, double height)
     {
+        _data = data;
         _x = x;
         _y = y;
         _width = width;
         _height = height;
-        _data = data;
         _renderer = std::make_unique<renderer::ImageRenderer>();
     }
     double ImageView::x()
@@ -32,12 +32,13 @@ namespace view {
     }
     void ImageView::bind_data()
     {
-        _renderer->set_data(_data->raw(), _data->height(), _data->width());
+        _renderer->set_data(_data->raw(), _data->width(), _data->height());
     }
     void ImageView::render(double aspect_ratio)
     {
         if (_data->updated()) {
             bind_data();
+            _data->mark_as_updated();
         }
         _renderer->render(aspect_ratio);
     }
