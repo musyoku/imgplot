@@ -3,7 +3,6 @@ INCLUDE = -I./external $(shell pkg-config --cflags glfw3) $(shell python3 -m pyb
 LDFLAGS = $(shell pkg-config --static --libs glfw3) -shared -pthread
 CXXFLAGS = -O3 -DNDEBUG -Wall -Wformat -march=native -std=c++14 -fPIC
 SOURCES = 	$(wildcard ./external/gl3w/*.c) \
-			$(wildcard ./core/base/*.cpp) \
 			$(wildcard ./core/view/*.cpp) \
 			$(wildcard ./core/data/*.cpp) \
 			$(wildcard ./core/renderer/*.cpp) \
@@ -11,7 +10,7 @@ SOURCES = 	$(wildcard ./external/gl3w/*.c) \
 			$(wildcard ./pybind/*.cpp)
 OBJS = $(patsubst %.c,%.o,$(patsubst %.cpp,%.o,$(SOURCES)))
 EXTENSION = $(shell python3-config --extension-suffix)
-OUTPUT = ../generative_query_network/gqn
+OUTPUT = .
 TARGET = $(OUTPUT)/imgplot$(EXTENSION)
 
 UNAME := $(shell uname -s)

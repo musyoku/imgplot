@@ -1,5 +1,4 @@
 #pragma once
-#include "../base/view.h"
 #include "../data/image.h"
 #include "../renderer/image.h"
 #include <gl3w/gl3w.h>
@@ -9,15 +8,23 @@
 
 namespace imgplot {
 namespace view {
-    class ImageView : public View {
+    class ImageView {
     private:
         data::ImageData* _data;
         std::unique_ptr<renderer::ImageRenderer> _renderer;
-        void _bind_data();
+        int _x;
+        int _y;
+        int _width;
+        int _height;
+        void bind_data();
 
     public:
         ImageView(data::ImageData* data, double x, double y, double width, double height);
-        virtual void render(double aspect_ratio);
+        double x();
+        double y();
+        double width();
+        double height();
+        void render(double aspect_ratio);
     };
 }
 }
