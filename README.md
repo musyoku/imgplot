@@ -33,7 +33,7 @@ make
 
 ### #1
 
-```
+```python
 import numpy as np
 import imgplot
 
@@ -70,7 +70,7 @@ window = imgplot.window(figure, size=(400, 400), title="Lena")
 
 ### #2
 
-```
+```python
 axis1 = imgplot.image(data_rect)
 figure.add(axis1, x=0, y=0, width=1, height=0.5)
 
@@ -82,7 +82,7 @@ figure.add(axis2, x=0, y=0.5, width=1, height=0.5)
 
 ### #3
 
-```
+```python
 axis1 = imgplot.image(data_rect)
 figure.add(axis1, x=0, y=0, width=1, height=1.0 / 3.0)
 
