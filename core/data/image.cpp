@@ -5,6 +5,15 @@ namespace imgplot {
 namespace data {
     ImageData::ImageData(int width, int height, int num_channels)
     {
+        reserve(width, height, num_channels);
+    }
+    ImageData::ImageData(pybind11::array_t<GLubyte> data, int width, int height, int num_channels)
+    {
+        reserve(width, height, num_channels);
+        update(data);
+    }
+    void ImageData::reserve(int width, int height, int num_channels)
+    {
         if (num_channels != 1 && num_channels != 3) {
             throw std::runtime_error("num_channels != 1 && num_channels != 3");
         }

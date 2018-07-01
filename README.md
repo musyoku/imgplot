@@ -1,4 +1,7 @@
 # :construction: Work in Progress :construction:
+# imgplot
+
+imgplot is a non-blocking image viewer for Python 3.
 
 # Requirements
 

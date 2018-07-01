@@ -21,9 +21,6 @@ protected:
     int _initial_height;
     void run();
     void render_view(view::ImageView* view);
-    void callback_scroll(GLFWwindow* window, double x, double y);
-    void callback_cursor_move(GLFWwindow* window, double x, double y);
-    void callback_mouse_button(GLFWwindow* window, int button, int action, int mods);
 
 public:
     Window(Figure* figure, pybind11::tuple initial_size);
