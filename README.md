@@ -1,4 +1,3 @@
-# :construction: Work in Progress :construction:
 # imgplot
 
 imgplot is a non-blocking image viewer for Python 3.
@@ -130,3 +129,42 @@ window = imgplot.window(figure, size=(600, 200), title="Lena")
 
 ![screenshot from 2018-07-01 22-26-14](https://user-images.githubusercontent.com/15250418/42134843-d28d525e-7d7d-11e8-8721-292b6742e179.png)
 
+
+### #7
+
+```python
+for n in range(16):
+    axis = imgplot.image(data_square)
+    x = n % 4 / 4.0
+    y = n // 4 / 4.0
+    figure.add(axis, x=x, y=y, width=1.0 / 4.0, height=1.0 / 4.0)
+
+window = imgplot.window(figure, size=(400, 400), title="Lena")
+```
+
+![screenshot from 2018-07-01 22-42-50](https://user-images.githubusercontent.com/15250418/42135022-5d4b8e86-7d80-11e8-8c67-73744e4fc045.png)
+
+
+### #8
+
+```
+axis1 = imgplot.image(data_rect)
+figure.add(axis1, x=0, y=0, width=1, height=0.5)
+
+axis2 = imgplot.image(data_rect)
+figure.add(axis2, x=0, y=0.5, width=1, height=0.5)
+
+window = imgplot.window(figure, size=(400, 400), title="Lena")
+window.show()
+
+for loop in range(1000):
+    if window.closed():
+        exit()
+
+    data = np.uint8(data_rect * abs(math.cos(0.05 * loop * math.pi)))
+    axis1.update(data)
+    time.sleep(0.1)
+
+```
+
+![peek 2018-07-01 22-52](https://user-images.githubusercontent.com/15250418/42135087-6be9b7dc-7d81-11e8-8c37-3bbde933b642.gif)
