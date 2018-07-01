@@ -26,9 +26,7 @@ pip3 install pybind11 --user
 make
 ```
 
-# Usage
-
-## Basic usage
+# Basic usage
 
 ### #1
 
@@ -145,7 +143,9 @@ window = imgplot.window(figure, size=(400, 400), title="Lena")
 ![screenshot from 2018-07-01 22-42-50](https://user-images.githubusercontent.com/15250418/42135022-5d4b8e86-7d80-11e8-8c67-73744e4fc045.png)
 
 
-### #8
+# Advanced usage
+
+### #1
 
 ```
 axis1 = imgplot.image(data_rect)
