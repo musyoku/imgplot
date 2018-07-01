@@ -3,13 +3,12 @@
 
 namespace imgplot {
 namespace data {
-    ImageData::ImageData(int width, int height, int num_channels)
+    ImageData::ImageData()
     {
-        reserve(width, height, num_channels);
     }
-    ImageData::ImageData(pybind11::array_t<GLubyte> data, int width, int height, int num_channels)
+    ImageData::ImageData(pybind11::array_t<GLubyte> data)
     {
-        reserve(width, height, num_channels);
+        reserve(data.shape(1), data.shape(0), data.shape(2));
         update(data);
     }
     void ImageData::reserve(int width, int height, int num_channels)
@@ -34,34 +33,30 @@ namespace data {
         _num_channels = num_channels;
         _data = std::make_unique<GLubyte[]>(height * width * 3);
     }
-    void ImageData::resize(int width, int height, int num_channels)
+    void ImageData::reserve_if_needed(pybind11::array_t<GLubyte> data)
     {
-        _data = std::make_unique<GLubyte[]>(height * width * 3);
-    }
-    void ImageData::update(pybind11::array_t<GLubyte> data)
-    {
-        auto size = data.size();
-        if (size != _height * _width * _num_channels) {
-            throw std::runtime_error("`data.size` muse be equal to `_height * _width * _num_channels`.");
-        }
-        if (data.shape(0) != _height) {
-            throw std::runtime_error("(data.shape(0) != _height) -> false");
-        }
-        if (data.shape(1) != _width) {
-            throw std::runtime_error("(data.shape(1) != _width) -> false");
-        }
-        if (data.shape(2) != _num_channels) {
-            throw std::runtime_error("(data.shape(2) != _num_channels) -> false");
-        }
         if (data.ndim() < 2 || data.ndim() > 3) {
             throw std::runtime_error("(data.ndim() < 2 || data.ndim() > 3) -> false");
         }
-        if (data.ndim() == 2 && _num_channels != 1) {
-            throw std::runtime_error("(data.ndim() == 2 && _num_channels != 1) -> false");
+        if (data.shape(0) != _height) {
+            return reserve(data.shape(1), data.shape(0), data.shape(2));
         }
-        if (data.ndim() == 3 && _num_channels != 3) {
-            throw std::runtime_error("(data.ndim() == 3 && _num_channels != 3) -> false");
+        if (data.shape(1) != _width) {
+            return reserve(data.shape(1), data.shape(0), data.shape(2));
         }
+        if (data.ndim() == 2 && _num_channels == 3) {
+            return reserve(data.shape(1), data.shape(0), 1);
+        }
+        if (data.ndim() == 3 && _num_channels == 1) {
+            return reserve(data.shape(1), data.shape(0), 3);
+        }
+        if (data.shape(2) != _num_channels) {
+            return reserve(data.shape(1), data.shape(0), data.shape(2));
+        }
+    }
+    void ImageData::update(pybind11::array_t<GLubyte> data)
+    {
+        reserve_if_needed(data);
         if (data.ndim() == 2) {
             auto ptr = data.mutable_unchecked<2>();
             for (ssize_t h = 0; h < _height; h++) {

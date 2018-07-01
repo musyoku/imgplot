@@ -9,9 +9,8 @@ using namespace imgplot;
 PYBIND11_MODULE(imgplot, module)
 {
     py::class_<data::ImageData>(module, "image")
-        .def(py::init<int, int, int>(), py::arg("width"), py::arg("height"), py::arg("num_channels"))
-        .def(py::init<py::array_t<GLubyte>, int, int, int>(), py::arg("data"), py::arg("width"), py::arg("height"), py::arg("num_channels"))
-        .def("resize", &data::ImageData::resize)
+        .def(py::init<>())
+        .def(py::init<py::array_t<GLubyte>>(), py::arg("data"))
         .def("update", &data::ImageData::update);
 
     py::class_<Figure>(module, "figure")
