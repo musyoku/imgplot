@@ -14,6 +14,7 @@ namespace data {
         std::unique_ptr<GLubyte[]> _data;
         void reserve(int width, int height, int num_channels);
         void reserve_if_needed(pybind11::array_t<GLubyte> data);
+        void validate_data(pybind11::array_t<GLubyte> data);
 
     public:
         ImageData();

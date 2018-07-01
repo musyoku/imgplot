@@ -38,11 +38,9 @@ namespace data {
         if (data.ndim() < 2 || data.ndim() > 3) {
             throw std::runtime_error("(data.ndim() < 2 || data.ndim() > 3) -> false");
         }
-        if (data.shape(0) != _height) {
-            return reserve(data.shape(1), data.shape(0), data.shape(2));
-        }
-        if (data.shape(1) != _width) {
-            return reserve(data.shape(1), data.shape(0), data.shape(2));
+        if (data.shape(0) != _height || data.shape(1) != _width) {
+            int num_channels = (data.ndim() == 2) ? 1 : data.shape(2);
+            return reserve(data.shape(1), data.shape(0), num_channels);
         }
         if (data.ndim() == 2 && _num_channels == 3) {
             return reserve(data.shape(1), data.shape(0), 1);
@@ -50,12 +48,21 @@ namespace data {
         if (data.ndim() == 3 && _num_channels == 1) {
             return reserve(data.shape(1), data.shape(0), 3);
         }
-        if (data.shape(2) != _num_channels) {
-            return reserve(data.shape(1), data.shape(0), data.shape(2));
+    }
+
+    void ImageData::validate_data(pybind11::array_t<GLubyte> data)
+    {
+        if (!!(data.ndim() == 2 || data.ndim() == 3) == false) {
+            throw std::runtime_error("Invalid ndim");
+        }
+        int num_channels = (data.ndim() == 2) ? 1 : data.shape(2);
+        if (!!(num_channels == 1 || num_channels == 3) == false) {
+            throw std::runtime_error("Invalid #channels");
         }
     }
     void ImageData::update(pybind11::array_t<GLubyte> data)
     {
+        validate_data(data);
         reserve_if_needed(data);
         if (data.ndim() == 2) {
             auto ptr = data.mutable_unchecked<2>();
