@@ -5,7 +5,7 @@
 
 namespace imgplot {
 namespace view {
-    ImageView::ImageView(data::ImageData* data, double x, double y, double width, double height)
+    ImageView::ImageView(std::shared_ptr<data::ImageData> data, double x, double y, double width, double height)
     {
         _data = data;
         _x = x;

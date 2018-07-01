@@ -8,7 +8,7 @@ using namespace imgplot;
 
 PYBIND11_MODULE(imgplot, module)
 {
-    py::class_<data::ImageData>(module, "image")
+    py::class_<data::ImageData, std::shared_ptr<data::ImageData>>(module, "image")
         .def(py::init<>())
         .def(py::init<py::array_t<GLubyte>>(), py::arg("data"))
         .def("update", &data::ImageData::update);

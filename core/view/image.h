@@ -18,8 +18,8 @@ namespace view {
         void bind_data();
 
     public:
-        data::ImageData* _data;
-        ImageView(data::ImageData* data, double x, double y, double width, double height);
+        std::shared_ptr<data::ImageData> _data;
+        ImageView(std::shared_ptr<data::ImageData> data, double x, double y, double width, double height);
         double x();
         double y();
         double width();

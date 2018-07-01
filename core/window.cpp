@@ -47,7 +47,7 @@ void Window::run()
     glClearColor(0.0, 0.0, 0.0, 1.0);
 
     for (const auto& frame : _figure->_images) {
-        data::ImageData* data = std::get<0>(frame);
+        std::shared_ptr<data::ImageData> data = std::get<0>(frame);
         double x = std::get<1>(frame);
         double y = std::get<2>(frame);
         double width = std::get<3>(frame);
