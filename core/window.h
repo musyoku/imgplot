@@ -7,6 +7,7 @@
 #include <pybind11/pybind11.h>
 #include <thread>
 #include <vector>
+#include <string>
 
 namespace imgplot {
 class Window {
@@ -19,11 +20,12 @@ protected:
     bool _closed;
     int _initial_width;
     int _initial_height;
+    std::string _title;
     void run();
     void render_view(view::ImageView* view);
 
 public:
-    Window(Figure* figure, pybind11::tuple initial_size);
+    Window(Figure* figure, pybind11::tuple initial_size, std::string title);
     ~Window();
     void show();
     bool closed();

@@ -19,7 +19,7 @@ axis_square = imgplot.image(width, height, channels)
 axis_square.update(lena_square)
 figure.add(axis_square, x=0.25, y=0.5, width=0.5, height=0.5)
 
-window = imgplot.window(figure, size=(500, 500))
+window = imgplot.window(figure, size=(500, 500), title="Lena")
 window.show()
 
 while True:

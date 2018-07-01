@@ -19,7 +19,7 @@ PYBIND11_MODULE(imgplot, module)
         .def("add", &Figure::add, py::arg("data"), py::arg("x"), py::arg("y"), py::arg("width"), py::arg("height"));
 
     py::class_<Window>(module, "window")
-        .def(py::init<Figure*, py::tuple>(), py::arg("figure"), py::arg("size"))
+        .def(py::init<Figure*, py::tuple, std::string>(), py::arg("figure"), py::arg("size"), py::arg("title"))
         .def("closed", &Window::closed)
         .def("show", &Window::show);
 }

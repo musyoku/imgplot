@@ -1,11 +1,11 @@
 #include "window.h"
-#include <iostream>
 
 namespace imgplot {
-Window::Window(Figure* figure, pybind11::tuple initial_size)
+Window::Window(Figure* figure, pybind11::tuple initial_size, std::string title)
 {
     _figure = figure;
     _closed = false;
+    _title = title;
     _initial_width = initial_size[0].cast<int>();
     _initial_height = initial_size[1].cast<int>();
 
@@ -36,7 +36,7 @@ Window::~Window()
 void Window::run()
 {
     glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
-    _shared_window = glfwCreateWindow(_initial_width, _initial_height, "Generative Query Network", NULL, _window);
+    _shared_window = glfwCreateWindow(_initial_width, _initial_height, _title.c_str(), NULL, _window);
     glfwMakeContextCurrent(_shared_window);
     glfwSetWindowUserPointer(_shared_window, this);
 
