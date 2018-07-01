@@ -34,13 +34,13 @@ namespace view {
     {
         _renderer->set_data(_data->raw(), _data->width(), _data->height());
     }
-    void ImageView::render(double aspect_ratio)
+    void ImageView::render(double scale_x, double scale_y)
     {
         if (_data->updated()) {
             bind_data();
             _data->mark_as_updated();
         }
-        _renderer->render(aspect_ratio);
+        _renderer->render(scale_x, scale_y);
     }
 }
 }

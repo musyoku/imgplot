@@ -72,13 +72,24 @@ void Window::render_view(view::ImageView* view)
 {
     int screen_width, screen_height;
     glfwGetFramebufferSize(_shared_window, &screen_width, &screen_height);
-    int x = screen_width * view->x();
-    int y = screen_height * view->y();
-    int width = screen_width * view->width();
-    int height = screen_height * view->height();
-    glViewport(x, screen_height - y - height, width, height);
-    double aspect_ratio = (double)width / (double)height;
-    view->render(aspect_ratio);
+    int data_width = view->_data->width();
+    int data_height = view->_data->height();
+    double data_aspect_ratio = (double)data_width / (double)data_height;
+    int view_x = screen_width * view->x();
+    int view_y = screen_height * view->y();
+    int view_width = screen_width * view->width();
+    int view_height = screen_height * view->height();
+    double view_aspect_ratio = (double)view_width / (double)view_height;
+    glViewport(view_x, screen_height - view_y - view_height, view_width, view_height);
+    double scale_x = 1.0;
+    double scale_y = 1.0;
+    if (view_aspect_ratio > data_aspect_ratio) {
+        scale_x = 1.0 / (view_aspect_ratio / data_aspect_ratio);
+    }
+    if (view_aspect_ratio < data_aspect_ratio) {
+        scale_y = (view_aspect_ratio / data_aspect_ratio);
+    }
+    view->render(scale_x, scale_y);
 }
 void Window::show()
 {

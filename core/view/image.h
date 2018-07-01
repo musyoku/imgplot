@@ -10,7 +10,6 @@ namespace imgplot {
 namespace view {
     class ImageView {
     private:
-        data::ImageData* _data;
         std::unique_ptr<renderer::ImageRenderer> _renderer;
         double _x;
         double _y;
@@ -19,12 +18,13 @@ namespace view {
         void bind_data();
 
     public:
+        data::ImageData* _data;
         ImageView(data::ImageData* data, double x, double y, double width, double height);
         double x();
         double y();
         double width();
         double height();
-        void render(double aspect_ratio);
+        void render(double scale_x, double scale_y);
     };
 }
 }

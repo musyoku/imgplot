@@ -11,21 +11,21 @@ namespace renderer {
 in vec2 position;
 in vec2 uv;
 uniform mat4 mat;
-out vec2 coord;
+out vec2 texcoord;
 void main(void)
 {
     gl_Position = mat * vec4(position, 0.5, 1.0);
-    coord = uv;
+    texcoord = uv;
 }
 )";
 
         const GLchar fragment_shader[] = R"(
 #version 410
 uniform sampler2D image;
-in vec2 coord;
+in vec2 texcoord;
 out vec4 color;
 void main(){
-    color = texture(image, coord);
+    color = texture(image, texcoord);
 }
 )";
 
@@ -81,8 +81,8 @@ void main(){
         glUniform1i(_uniform_image, _texture_unit);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
         glGenSamplers(1, &_sampler_id);
@@ -102,7 +102,7 @@ void main(){
             GL_RGB, GL_UNSIGNED_BYTE, data);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
-    void ImageRenderer::render(GLfloat aspect_ratio)
+    void ImageRenderer::render(GLfloat scale_x, GLfloat scale_y)
     {
         glUseProgram(_program);
 
@@ -113,12 +113,12 @@ void main(){
         glBindVertexArray(_vao);
 
         const GLfloat mat[] = {
-            1.0f / aspect_ratio, 0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.0f,
+            scale_x, 0.0f, 0.0f, 0.0f,
+            0.0f, scale_y, 0.0f, 0.0f,
             0.0f, 0.0f, 1.0f, 0.0f,
             0.0f, 0.0f, 0.0f, 1.0f
         };
-        glUniformMatrix4fv(_uniform_mat, 1, GL_TRUE, mat);
+        glUniformMatrix4fv(_uniform_mat, 1, GL_FALSE, mat);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
